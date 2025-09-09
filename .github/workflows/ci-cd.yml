@@ -40,7 +40,9 @@ jobs:
       # Step 5: Run Pytest & collect coverage
       - name: Run Pytest
         run: |
-          pytest --cov=app --cov-report=xml > test_output.log
+          run: pytest --cov=app --cov-report=xml
+          run: cat test_output.log
+          # pytest --cov=app --cov-report=xml > test_output.log
           coverage=$(awk '/TOTAL/ {print $4}' test_output.log | cut -d'%' -f1)
           echo "COVERAGE=$coverage" >> $GITHUB_ENV
 
