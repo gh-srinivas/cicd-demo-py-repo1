@@ -39,7 +39,9 @@ jobs:
 
       # Step 5: Run Pytest & collect coverage
       - name: Run Pytest and Save Output
-        run: pytest --cov=app --cov-report=xml > test_output.log
+        run: | 
+          pytest --cov=app --cov-report=xml > test_output.log
+          cat test_output.log
 
       - name: Extract Coverage
         run: |
