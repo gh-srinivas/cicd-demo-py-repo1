@@ -38,14 +38,15 @@ jobs:
         continue-on-error: true
 
       # Step 5: Run Pytest & collect coverage
-      - name: Run Pytest
+      - name: Run Pytest and Save Output
+        run: pytest --cov=app --cov-report=xml > test_output.log
+
+      - name: Extract Coverage
         run: |
-          run: pytest --cov=app --cov-report=xml
-          run: cat test_output.log
-          # pytest --cov=app --cov-report=xml > test_output.log
           coverage=$(awk '/TOTAL/ {print $4}' test_output.log | cut -d'%' -f1)
           echo "COVERAGE=$coverage" >> $GITHUB_ENV
-
+          cat test_output.log
+    
       # Step 6: Email if coverage <85%
       - name: Send Email if Coverage <85%
         if: env.COVERAGE < 85
